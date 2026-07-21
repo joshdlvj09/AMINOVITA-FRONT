@@ -1,0 +1,38 @@
+/* =======================================================
+   🛡️ CONFIGURACIÓN DE MODAL ANCLADO (FIJO Y ESTABLE)
+   ======================================================= */
+
+/* 1. ANCLAJE ABSOLUTO */
+#modalProveedor .modal-dialog {
+    position: fixed !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 800px !important;
+}
+
+/* 2. CONTROL DEL CONTENEDOR BLANCO */
+#modalProveedor .modal-content {
+    max-height: 85vh !important;
+    overflow: hidden !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* 3. HEADER FIJO: nunca se mueve */
+#modalProveedor .modal-header {
+    flex-shrink: 0 !important;
+}
+
+/* 4. SCROLL INTERNO: solo el body scrollea, y arranca desde el inicio */
+#modalProveedor .modal-body {
+    flex: 1 1 auto !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    max-height: none !important;   /* ← quita el max-height fijo que causaba el corte */
+    padding-right: 20px !important;
+    scroll-behavior: smooth;
+}
