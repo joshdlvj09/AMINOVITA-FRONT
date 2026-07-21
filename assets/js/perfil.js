@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 2. Obtener datos del perfil desde el backend
     try {
-        const res = await fetch('http://localhost:4000/api/auth/perfil', {
+        const res = await fetch(`${API_URL}/api/auth/perfil`, {
             headers: { 'x-auth-token': token }
         });
 

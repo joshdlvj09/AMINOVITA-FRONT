@@ -248,7 +248,7 @@ async function cargarProductosEnCheckboxes() {
     if (!contenedor) return;
 
     try {
-        const res = await fetch('http://localhost:4000/api/productos?limit=1000', {
+        const res = await fetch(`${API_URL}/api/productos?limit=1000`, {
             headers: { 'x-auth-token': localStorage.getItem('token') }
         });
         const data = await res.json();
@@ -363,7 +363,7 @@ async function cargarProveedores() {
     if (!contenedor) return;
 
     try {
-        const res = await fetch('http://localhost:4000/api/proveedores', {
+        const res = await fetch(`${API_URL}/api/proveedores`, {
             headers: { 'x-auth-token': localStorage.getItem('token') }
         });
         
@@ -501,11 +501,11 @@ document.getElementById('formProveedor').addEventListener('submit', async (e) =>
     };
 
     try {
-        let url = 'http://localhost:4000/api/proveedores';
+        let url = `${API_URL}/api/proveedores`;
         let metodo = 'POST';
 
         if (idProveedorEdicion) {
-            url = `http://localhost:4000/api/proveedores/${idProveedorEdicion}`;
+            url = `${API_URL}/api/proveedores/${idProveedorEdicion}`;
             metodo = 'PUT';
         }
 
@@ -550,7 +550,7 @@ async function prepararModificacion(id) {
     Swal.fire({ title: 'Cargando datos...', didOpen: () => Swal.showLoading() });
 
     try {
-        const res = await fetch(`http://localhost:4000/api/proveedores/${id}`, {
+        const res = await fetch(`${API_URL}/api/proveedores/${id}`, {
             headers: { 'x-auth-token': localStorage.getItem('token') }
         });
         
@@ -630,7 +630,7 @@ async function eliminarProveedorReal(id) {
         Swal.fire({ title: 'Eliminando...', didOpen: () => Swal.showLoading() });
 
         try {
-            const res = await fetch(`http://localhost:4000/api/proveedores/${id}`, {
+            const res = await fetch(`${API_URL}/api/proveedores/${id}`, {
                 method: 'DELETE',
                 headers: { 'x-auth-token': localStorage.getItem('token') }
             });
@@ -690,7 +690,7 @@ function exportarDirectorioExcel() {
 
     try {
         const wb = XLSX.utils.book_new();
-        const ws = XLSX.utils.json_to_sheet(datosEstructuredos);
+        const ws = XLSX.utils.json_to_sheet(datosEstructurados);
 
         const anchosColumnas = Object.keys(datosEstructurados[0]).map(key => ({
             wch: Math.max(key.length + 2, ...datosEstructurados.map(row => (row[key] ? row[key].toString().length + 2 : 10)))

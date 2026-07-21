@@ -33,7 +33,7 @@ if (formContacto) {
         btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Enviando...';
 
         try {
-            const respuesta = await fetch('http://localhost:4000/api/contacto', {
+            const respuesta = await fetch(`${API_URL}/api/contacto`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ nombre, email, telefono, empresa, mensaje })

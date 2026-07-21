@@ -88,7 +88,7 @@ function configurarFormularioLogin() {
             btn.disabled = true;
 
             try {
-                const respuesta = await fetch('http://localhost:4000/api/auth/login', {
+                const respuesta = await fetch(`${API_URL}/api/auth/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
@@ -173,7 +173,7 @@ window.enviarRecuperacion = async function() {
     Swal.fire({ title: 'Enviando...', didOpen: () => Swal.showLoading() });
 
     try {
-        const respuesta = await fetch('http://localhost:4000/api/auth/olvide-password', {
+        const respuesta = await fetch(`${API_URL}/api/auth/olvide-password`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email })

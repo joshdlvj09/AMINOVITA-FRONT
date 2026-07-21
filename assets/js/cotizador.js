@@ -30,7 +30,7 @@ async function cargarProductosEnCheckboxes() {
     if (!contenedor) return;
 
     try {
-        const res = await fetch('http://localhost:4000/api/productos', {
+        const res = await fetch(`${API_URL}/api/productos`, {
             headers: { 'x-auth-token': localStorage.getItem('token') }
         });
         const data = await res.json();
@@ -78,7 +78,7 @@ function filtrarProductosCotizador() {
 // --- 3. OBTENER LISTA DE PROVEEDORES ---
 async function obtenerProveedoresBase() {
     try {
-        const res = await fetch('http://localhost:4000/api/proveedores', {
+        const res = await fetch(`${API_URL}/api/proveedores`, {
             headers: { 'x-auth-token': localStorage.getItem('token') }
         });
         proveedoresGlobal = await res.json();

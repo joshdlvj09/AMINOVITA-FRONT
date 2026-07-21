@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function cargarDatosProducto() {
     try {
-        const res = await fetch(`http://localhost:4000/api/productos/${productoId}`, {
+        const res = await fetch(`${API_URL}/api/productos/${productoId}`, {
             headers: { 'x-auth-token': localStorage.getItem('token') }
         });
 
@@ -141,7 +141,7 @@ document.getElementById('formEditar').addEventListener('submit', async (e) => {
             imagen:      imagenFinal
         };
 
-        const res = await fetch(`http://localhost:4000/api/productos/${productoId}`, {
+        const res = await fetch(`${API_URL}/api/productos/${productoId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -186,7 +186,7 @@ async function eliminarProducto() {
 
     if (result.isConfirmed) {
         try {
-            const res = await fetch(`http://localhost:4000/api/productos/${productoId}`, {
+            const res = await fetch(`${API_URL}/api/productos/${productoId}`, {
                 method: 'DELETE',
                 headers: { 'x-auth-token': localStorage.getItem('token') }
             });

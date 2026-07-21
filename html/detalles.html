@@ -247,6 +247,7 @@
     </footer>
 </div>
 
+    <script src="../assets/js/config.js"></script>
     <script src="../assets/js/auth.js"></script>
 
     <script>
@@ -274,7 +275,7 @@
 
         async function cargarDatosProducto() {
             try {
-                const res = await fetch(`http://localhost:4000/api/productos/${productoId}`, {
+                const res = await fetch(`${API_URL}/api/productos/${productoId}`, {
                     headers: { 'x-auth-token': localStorage.getItem('token') }
                 });
                 
@@ -341,7 +342,7 @@
                     descripcion: document.getElementById('descripcion').value
                 };
 
-                const res = await fetch(`http://localhost:4000/api/productos/${productoId}`, {
+                const res = await fetch(`${API_URL}/api/productos/${productoId}`, {
                     method: 'PUT',
                     headers: { 
                         'Content-Type': 'application/json',
@@ -380,7 +381,7 @@
 
             if (result.isConfirmed) {
                 try {
-                    const res = await fetch(`http://localhost:4000/api/productos/${productoId}`, {
+                    const res = await fetch(`${API_URL}/api/productos/${productoId}`, {
                         method: 'DELETE',
                         headers: { 'x-auth-token': localStorage.getItem('token') }
                     });

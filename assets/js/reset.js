@@ -31,7 +31,7 @@ document.getElementById('formReset').addEventListener('submit', async (e) => {
     }
 
     try {
-        const res  = await fetch('http://localhost:4000/api/auth/nuevo-password', {
+        const res  = await fetch(`${API_URL}/api/auth/nuevo-password`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id, token, password })

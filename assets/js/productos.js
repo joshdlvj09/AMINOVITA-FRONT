@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function cargarMisFavoritos() {
     try {
-        const res = await fetch('http://localhost:4000/api/auth/favoritos', { 
+        const res = await fetch(`${API_URL}/api/auth/favoritos`, { 
             headers: { 'x-auth-token': localStorage.getItem('token') } 
         });
         if(res.ok) {
@@ -78,7 +78,7 @@ function filtrarCategoria(categoria, btnElement) {
 // --- CARGAR Y RENDERIZAR REFACTORIZADO A MULTI-ARREGLOS ---
 async function cargarProductos(pagina) {
     try {
-        const url = `http://localhost:4000/api/productos?page=${pagina}&search=${terminoBusqueda}&categoria=${categoriaActual}`;
+        const url = `${API_URL}/api/productos?page=${pagina}&search=${terminoBusqueda}&categoria=${categoriaActual}`;
         const res = await fetch(url);
         if(!res.ok) throw new Error("Error al conectar");
         const data = await res.json();
@@ -200,7 +200,7 @@ async function toggleLike(idProducto, btn) {
     }
 
     try {
-        await fetch('http://localhost:4000/api/auth/favoritos', {
+        await fetch(`${API_URL}/api/auth/favoritos`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'x-auth-token': localStorage.getItem('token') },
             body: JSON.stringify({ productoId: idProducto })
@@ -262,7 +262,7 @@ function inicializarFormularioProducto() {
                 descripcion: document.getElementById('prodDesc').value
             };
 
-            const res = await fetch('http://localhost:4000/api/productos', {
+            const res = await fetch(`${API_URL}/api/productos`, {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json', 
@@ -311,7 +311,7 @@ async function exportarProductosExcel() {
     });
 
     try {
-        const res = await fetch('http://localhost:4000/api/productos?limit=1000', {
+        const res = await fetch(`${API_URL}/api/productos?limit=1000`, {
             headers: { 'x-auth-token': localStorage.getItem('token') }
         });
         

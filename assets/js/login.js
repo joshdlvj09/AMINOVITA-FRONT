@@ -29,7 +29,7 @@ if (loginForm) {
         btn.disabled  = true;
 
         try {
-            const respuesta = await fetch('http://localhost:4000/api/auth/login', {
+            const respuesta = await fetch(`${API_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })
@@ -100,7 +100,7 @@ async function enviarRecuperacion() {
     btnEnviar.disabled  = true;
 
     try {
-        const res  = await fetch('http://localhost:4000/api/auth/olvide-password', {
+        const res  = await fetch(`${API_URL}/api/auth/olvide-password`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email })

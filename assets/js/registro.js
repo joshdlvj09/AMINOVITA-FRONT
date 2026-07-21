@@ -27,7 +27,7 @@ async function enviarCodigo() {
     btn.disabled  = true;
 
     try {
-        const res  = await fetch('http://localhost:4000/api/auth/send-code', {
+        const res  = await fetch(`${API_URL}/api/auth/send-code`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email })
@@ -113,7 +113,7 @@ document.getElementById('registroForm').addEventListener('submit', async functio
     btn.disabled  = true;
 
     try {
-        const res  = await fetch('http://localhost:4000/api/auth/register', {
+        const res  = await fetch(`${API_URL}/api/auth/register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ nombre, empresa, email, password, code })

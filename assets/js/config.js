@@ -1,0 +1,1 @@
+const API_URL = "https://aminovita-back.onrender.com";

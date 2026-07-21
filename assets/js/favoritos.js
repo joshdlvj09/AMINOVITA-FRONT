@@ -51,7 +51,7 @@ async function cargarFavoritos() {
     const contenedor   = document.getElementById('contenedor-favoritos');
 
     try {
-        const res = await fetch('http://localhost:4000/api/auth/favoritos', {
+        const res = await fetch(`${API_URL}/api/auth/favoritos`, {
             headers: { 'x-auth-token': localStorage.getItem('token') }
         });
 
@@ -250,7 +250,7 @@ function limpiarBusquedaFavoritos() {
 
 async function verDetallesCliente(idProducto) {
     try {
-        const res = await fetch(`http://localhost:4000/api/productos/${idProducto}`, {
+        const res = await fetch(`${API_URL}/api/productos/${idProducto}`, {
             headers: { 'x-auth-token': localStorage.getItem('token') }
         });
 
@@ -295,7 +295,7 @@ async function quitarFavorito(idProducto) {
 
     // 3. Petición al backend
     try {
-        await fetch('http://localhost:4000/api/auth/favoritos', {
+        await fetch(`${API_URL}/api/auth/favoritos`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
