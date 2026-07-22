@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     cargarProductos(paginaActual);
     inicializarFormularioProducto(); // Inicializa el submit de forma segura al cargar el DOM
+    actualizarBadgeCarrito();
 });
 
 async function cargarMisFavoritos() {
@@ -161,7 +162,10 @@ function renderizarProductos(productos) {
                     ${esAdmin ? `
                         <a href="./detalles.html?id=${prod._id}" class="btn btn-light btn-sm text-dark border shadow-sm d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;"><i class="bi bi-gear-fill"></i></a>
                     ` : `
-                        <button onclick="verDetallesCliente('${prod._id}', '${textoCategorias}', \`${prod.titulo}\`, \`${prod.descripcion}\`)" class="btn btn-light btn-sm text-primary fw-bold border shadow-sm">Ver</button>
+                        <div class="d-flex gap-1">
+                            <button onclick="agregarRapido('${prod._id}', \`${prod.titulo}\`, event)" class="btn btn-light btn-sm text-success border shadow-sm d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;" title="Agregar a cotización"><i class="bi bi-cart-plus"></i></button>
+                            <button onclick="verDetallesCliente('${prod._id}', '${textoCategorias}', \`${prod.titulo}\`, \`${prod.descripcion}\`)" class="btn btn-light btn-sm text-primary fw-bold border shadow-sm">Ver</button>
+                        </div>
                     `}
                 </div>
             </div>
@@ -185,18 +189,53 @@ function verDetallesCliente(id, cat, titulo, desc) {
     new bootstrap.Modal(document.getElementById('modalDetallesCliente')).show();
 }
 
-// --- AGREGAR MATERIAL A LA COTIZACIÓN Y REDIRIGIR A CONTACTO ---
-function solicitarCotizacion() {
-    if (!productoModalActual) return;
+// --- CARRITO DE COTIZACIÓN (localStorage) ---
+function obtenerCarritoCotizacion() {
+    try {
+        return JSON.parse(localStorage.getItem(CART_COTIZACION_KEY)) || [];
+    } catch {
+        return [];
+    }
+}
 
-    const materiales = JSON.parse(localStorage.getItem(CART_COTIZACION_KEY) || '[]');
-    const yaExiste = materiales.some(m => m.id === productoModalActual.id);
+function actualizarBadgeCarrito() {
+    const btnFlotante = document.getElementById('btnCarritoCotizacion');
+    const badge = document.getElementById('badgeCarritoCotizacion');
+    if (!btnFlotante || !badge) return;
 
-    if (!yaExiste) {
-        materiales.push(productoModalActual);
-        localStorage.setItem(CART_COTIZACION_KEY, JSON.stringify(materiales));
+    const cantidad = obtenerCarritoCotizacion().length;
+    badge.textContent = cantidad;
+    btnFlotante.classList.toggle('d-none', cantidad === 0);
+}
+
+function agregarMaterialCotizacion(id, titulo) {
+    const materiales = obtenerCarritoCotizacion();
+
+    if (materiales.some(m => m.id === id)) {
+        Toast.fire({ icon: 'info', title: 'Ese material ya está en tu cotización' });
+        return;
     }
 
+    materiales.push({ id, titulo });
+    localStorage.setItem(CART_COTIZACION_KEY, JSON.stringify(materiales));
+    actualizarBadgeCarrito();
+    Toast.fire({ icon: 'success', title: 'Agregado a cotización' });
+}
+
+// Botón rápido dentro de cada tarjeta del catálogo
+function agregarRapido(id, titulo, event) {
+    event.stopPropagation();
+    agregarMaterialCotizacion(id, titulo);
+}
+
+// Botón dentro del modal de detalles
+function solicitarCotizacion() {
+    if (!productoModalActual) return;
+    agregarMaterialCotizacion(productoModalActual.id, productoModalActual.titulo);
+    bootstrap.Modal.getInstance(document.getElementById('modalDetallesCliente'))?.hide();
+}
+
+function irACotizar() {
     window.location.href = './contacto.html';
 }
 
