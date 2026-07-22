@@ -13,6 +13,8 @@ body, html {
     background: linear-gradient(135deg, #f3f6fb 0%, #e8fbf9 100%);
     color: #333;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Evita el scroll horizontal en móvil causado por los círculos decorativos */
+    overflow-x: hidden;
 }
 
 /* Elementos decorativos de fondo */
