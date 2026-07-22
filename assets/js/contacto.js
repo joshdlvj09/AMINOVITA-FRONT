@@ -44,11 +44,80 @@ const btnVolver           = document.getElementById('btnVolver');
 const formContacto        = document.getElementById('formContacto');
 const btnEnviarWhatsapp   = document.getElementById('btnEnviarWhatsapp');
 
+const CART_COTIZACION_KEY = 'cotizacionMateriales';
+const cajaMateriales       = document.getElementById('cajaMaterialesCotizacion');
+const listaChipsMateriales = document.getElementById('listaChipsMateriales');
+
 let contactoSeleccionado = null;
+let bloqueMaterialesActual = '';
 
 document.addEventListener('DOMContentLoaded', () => {
     renderizarTarjetas();
+    renderizarChipsMateriales();
 });
+
+// --------------------------------------------------------------
+// A.1 Materiales seleccionados desde el catálogo para cotizar
+// --------------------------------------------------------------
+function obtenerMateriales() {
+    try {
+        return JSON.parse(localStorage.getItem(CART_COTIZACION_KEY)) || [];
+    } catch {
+        return [];
+    }
+}
+
+function guardarMateriales(materiales) {
+    localStorage.setItem(CART_COTIZACION_KEY, JSON.stringify(materiales));
+}
+
+function construirTextoMateriales(materiales) {
+    if (materiales.length === 0) return '';
+    const lista = materiales.map(m => `- ${m.titulo}`).join('\n');
+    return `Estoy interesado en cotizar los siguientes materiales:\n${lista}\n\n`;
+}
+
+function renderizarChipsMateriales() {
+    const materiales = obtenerMateriales();
+
+    if (materiales.length === 0) {
+        cajaMateriales.classList.add('d-none');
+        listaChipsMateriales.innerHTML = '';
+        actualizarMensajeConMateriales(materiales);
+        return;
+    }
+
+    cajaMateriales.classList.remove('d-none');
+    listaChipsMateriales.innerHTML = materiales.map(m => `
+        <span class="chip-material">
+            ${m.titulo}
+            <button type="button" onclick="quitarMaterial('${m.id}')" title="Quitar"><i class="bi bi-x-circle-fill"></i></button>
+        </span>
+    `).join('');
+
+    actualizarMensajeConMateriales(materiales);
+}
+
+function actualizarMensajeConMateriales(materiales) {
+    const campoMensaje = document.getElementById('mensaje');
+    if (!campoMensaje) return;
+
+    const nuevoBloque = construirTextoMateriales(materiales);
+
+    if (campoMensaje.value.startsWith(bloqueMaterialesActual)) {
+        campoMensaje.value = nuevoBloque + campoMensaje.value.slice(bloqueMaterialesActual.length);
+    } else if (!campoMensaje.value) {
+        campoMensaje.value = nuevoBloque;
+    }
+
+    bloqueMaterialesActual = nuevoBloque;
+}
+
+function quitarMaterial(id) {
+    const materiales = obtenerMateriales().filter(m => m.id !== id);
+    guardarMateriales(materiales);
+    renderizarChipsMateriales();
+}
 
 // --------------------------------------------------------------
 // A. Renderizar las tarjetas ovaladas de contacto (apiladas)
@@ -95,6 +164,7 @@ function mostrarFormulario() {
         vistaFormulario.classList.remove('d-none');
         badgeContactoActivo.textContent = `Contactando a: ${contactoSeleccionado.nombre}`;
         autorrellenarPerfil();
+        renderizarChipsMateriales();
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, 180);
 }
@@ -189,6 +259,9 @@ if (formContacto) {
                     confirmButtonColor: '#1a1a1a',
                     heightAuto: false
                 });
+                localStorage.removeItem(CART_COTIZACION_KEY);
+                bloqueMaterialesActual = '';
+                renderizarChipsMateriales();
                 mostrarTarjetas();
             } else {
                 Swal.fire({ icon: 'error', title: 'Oops...', text: datos.msg || 'Error al enviar.', heightAuto: false });
@@ -221,5 +294,10 @@ if (btnEnviarWhatsapp) {
         const url = `https://wa.me/${contactoSeleccionado.whatsapp}?text=${encodeURIComponent(texto)}`;
 
         window.open(url, '_blank');
+
+        localStorage.removeItem(CART_COTIZACION_KEY);
+        bloqueMaterialesActual = '';
+        renderizarChipsMateriales();
+        mostrarTarjetas();
     });
 }

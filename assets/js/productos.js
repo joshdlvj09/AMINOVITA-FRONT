@@ -174,11 +174,30 @@ function renderizarProductos(productos) {
 }
 
 // --- VER DETALLES ---
+const CART_COTIZACION_KEY = 'cotizacionMateriales';
+let productoModalActual = null;
+
 function verDetallesCliente(id, cat, titulo, desc) {
+    productoModalActual = { id, titulo };
     document.getElementById('clienteModalCategoria').innerText = cat;
     document.getElementById('clienteModalTitulo').innerText = titulo;
     document.getElementById('clienteModalDesc').innerText = desc;
     new bootstrap.Modal(document.getElementById('modalDetallesCliente')).show();
+}
+
+// --- AGREGAR MATERIAL A LA COTIZACIÓN Y REDIRIGIR A CONTACTO ---
+function solicitarCotizacion() {
+    if (!productoModalActual) return;
+
+    const materiales = JSON.parse(localStorage.getItem(CART_COTIZACION_KEY) || '[]');
+    const yaExiste = materiales.some(m => m.id === productoModalActual.id);
+
+    if (!yaExiste) {
+        materiales.push(productoModalActual);
+        localStorage.setItem(CART_COTIZACION_KEY, JSON.stringify(materiales));
+    }
+
+    window.location.href = './contacto.html';
 }
 
 // --- FAVORITOS Y PAGINACIÓN ---
