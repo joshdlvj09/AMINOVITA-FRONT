@@ -12,45 +12,83 @@ const token     = urlParams.get('token');
 if (!id || !token) {
     Swal.fire({
         icon: 'error',
-        title: 'Error',
-        text: 'Enlace inválido. Vuelve a solicitar el correo.'
+        title: 'Enlace inválido',
+        text: 'Vuelve a solicitar el correo de recuperación.',
+        confirmButtonColor: '#8A8AF6'
     }).then(() => window.location.href = './login.html');
 }
 
 
 /* ── FORMULARIO DE NUEVA CONTRASEÑA ──────────────── */
 
-document.getElementById('formReset').addEventListener('submit', async (e) => {
-    e.preventDefault();
+const formReset = document.getElementById('formReset');
 
-    const password = document.getElementById('password').value;
-    const confirm  = document.getElementById('confirmPassword').value;
+if (formReset) {
+    formReset.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-    if (password !== confirm) {
-        return Swal.fire('Error', 'Las contraseñas no coinciden', 'error');
-    }
+        if (!formReset.checkValidity()) {
+            e.stopPropagation();
+            formReset.classList.add('was-validated');
+            return;
+        }
+        formReset.classList.add('was-validated');
 
-    try {
-        const res  = await fetch(`${API_URL}/api/auth/nuevo-password`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id, token, password })
-        });
+        const password = document.getElementById('password').value;
+        const confirm  = document.getElementById('confirmPassword').value;
 
-        const data = await res.json();
-
-        if (res.ok) {
-            Swal.fire({
-                icon: 'success',
-                title: '¡Éxito!',
-                text: 'Contraseña actualizada. Inicia sesión.'
-            }).then(() => window.location.href = './login.html');
-        } else {
-            Swal.fire({ icon: 'error', title: 'Error', text: data.msg });
+        if (password !== confirm) {
+            return Swal.fire({
+                icon: 'error',
+                title: 'Las contraseñas no coinciden',
+                text: 'Verifica que ambas contraseñas sean iguales.',
+                confirmButtonColor: '#8A8AF6'
+            });
         }
 
-    } catch (error) {
-        console.error(error);
-        Swal.fire('Error', 'Error de conexión', 'error');
-    }
-});
+        const btn          = formReset.querySelector('button[type="submit"]');
+        const textoOriginal = btn.innerHTML;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Guardando...';
+        btn.disabled  = true;
+
+        try {
+            const res  = await fetch(`${API_URL}/api/auth/nuevo-password`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, token, password })
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                await Swal.fire({
+                    icon: 'success',
+                    title: '¡Contraseña Actualizada!',
+                    text: 'Ya puedes iniciar sesión con tu nueva contraseña.',
+                    confirmButtonColor: '#8A8AF6'
+                });
+                window.location.href = './login.html';
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: data.msg || 'No se pudo actualizar la contraseña.',
+                    confirmButtonColor: '#8A8AF6'
+                });
+                btn.innerHTML = textoOriginal;
+                btn.disabled  = false;
+            }
+
+        } catch (error) {
+            console.error(error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de conexión',
+                text: 'No se pudo conectar con el servidor.',
+                confirmButtonColor: '#8A8AF6'
+            });
+            btn.innerHTML = textoOriginal;
+            btn.disabled  = false;
+        }
+    });
+}
