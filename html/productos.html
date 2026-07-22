@@ -102,6 +102,16 @@
             text-transform: uppercase !important;
             letter-spacing: 0.5px !important;
         }
+
+        /* 5. Evita que palabras largas (nombres químicos sin espacios) se desborden del modal */
+        #modalDetallesCliente .modal-body,
+        #modalDetallesCliente #clienteModalTitulo,
+        #modalDetallesCliente #clienteModalDesc,
+        #modalDetallesCliente .modal-header h5 {
+            overflow-wrap: break-word !important;
+            word-break: break-word !important;
+            hyphens: auto;
+        }
     </style>
 </head>
 
