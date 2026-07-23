@@ -74,15 +74,6 @@ body {
 }
 
 
-/* ── RESPONSIVE ───────────────────────────────────── */
-
-@media (max-width: 768px) {
-    .carousel-item img {
-        height: 300px;
-    }
-}
-
-
 /* ── 🛠️ BLINDAJE CONTRA TEXTOS LARGOS EN TARJETAS (NUEVO) ── */
 
 /* Fuerza al contenedor flexible central a contraerse en lugar de expandirse al infinito */

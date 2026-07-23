@@ -125,6 +125,23 @@ body::after {
     font-size: 1.1rem;
 }
 
+/* ── BOTÓN VER/OCULTAR CONTRASEÑA ─────────────────── */
+
+.btn-toggle-password {
+    background: none;
+    border: none;
+    color: #aebdc5;
+    font-size: 1rem;
+    padding: 0 6px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: color 0.2s;
+}
+
+.btn-toggle-password:hover {
+    color: #8A8AF6;
+}
+
 /* En registro, los iconos usan el color menta */
 .icon-menta {
     color: #6CDBE3;

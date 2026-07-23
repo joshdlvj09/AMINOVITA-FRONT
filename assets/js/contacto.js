@@ -16,7 +16,7 @@ const CONTACTOS = [
     },
     {
         id: 'contacto2',
-        nombre: 'Carla Alvares',
+        nombre: 'Carla Alvarez',
         cargo: '',
         email: 'ventas3@aminovitaquimicos.com.mx',
         whatsapp: '5549714812',

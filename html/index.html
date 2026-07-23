@@ -6,19 +6,146 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aminovita - Inicio</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <!-- Bootswatch Lux Theme -->
+    <!-- Bootswatch Lux Theme (ya incluye todo Bootstrap, no se carga por separado) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.8/lux/bootstrap.min.css" integrity="sha512-RgYivnvxINaQk1Yl88jIP++kmQgSz6rtxyhZ8bSZHFnhq3t4MlNOuUqX252yJwc4kSKl19Ej9dZ0cPvbqsp/kQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- Estilos propios -->
     <link rel="stylesheet" href="../css/style.css">
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        /* ── UTILIDADES DE MARCA (degradado morado → menta) ── */
+        .texto-degradado {
+            background: linear-gradient(90deg, #8A8AF6 0%, #6CDBE3 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .btn-degradado {
+            background: linear-gradient(90deg, #8A8AF6 0%, #6CDBE3 100%);
+            color: #fff;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-degradado:hover {
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(138, 138, 246, 0.35);
+        }
+
+        /* ── HERO ── */
+        .hero-inicio {
+            position: relative;
+            overflow: hidden; /* recorta los círculos decorativos, evita scroll horizontal */
+        }
+
+        .hero-blob {
+            position: absolute;
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .hero-blob-1 {
+            width: 420px; height: 420px;
+            top: -140px; right: -120px;
+            background: radial-gradient(circle, rgba(138, 138, 246, 0.12) 0%, rgba(255,255,255,0) 70%);
+        }
+
+        .hero-blob-2 {
+            width: 320px; height: 320px;
+            bottom: -120px; left: -100px;
+            background: radial-gradient(circle, rgba(108, 219, 227, 0.14) 0%, rgba(255,255,255,0) 70%);
+        }
+
+        .badge-marca {
+            display: inline-block;
+            background: rgba(138, 138, 246, 0.1);
+            color: #7a6de0;
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 6px 16px;
+            border-radius: 50px;
+        }
+
+        .hero-logo-card {
+            position: relative;
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: 0 20px 50px rgba(11, 38, 57, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 260px;
+        }
+
+        .hero-logo-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #8A8AF6 0%, #6CDBE3 100%);
+        }
+
+        /* ── TARJETAS DE CIFRAS ── */
+        .cifra-card {
+            background: #ffffff;
+            border-radius: 16px;
+        }
+
+        /* ── TARJETAS DE INDUSTRIA (mismos colores que el catálogo) ── */
+        .industria-card {
+            display: block;
+            background: #fff;
+            border-radius: 16px;
+            padding: 1.75rem 1rem;
+            text-align: center;
+            border: 1px solid #e9ecef;
+            border-bottom: 4px solid transparent;
+            transition: all 0.2s ease;
+            height: 100%;
+        }
+
+        .industria-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+        }
+
+        .industria-card .icono-industria {
+            width: 56px; height: 56px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 14px;
+            font-size: 1.4rem;
+            margin: 0 auto 12px;
+        }
+
+        .ind-farma { border-bottom-color: #8A8AF6; }
+        .ind-farma .icono-industria { background: #f0f0fe; color: #8A8AF6; }
+        .ind-alim { border-bottom-color: #2ecc71; }
+        .ind-alim .icono-industria { background: #eafaf1; color: #2ecc71; }
+        .ind-cosm { border-bottom-color: #e84393; }
+        .ind-cosm .icono-industria { background: #fdf0f5; color: #e84393; }
+        .ind-vet { border-bottom-color: #00cec9; }
+        .ind-vet .icono-industria { background: #e0fbfb; color: #00cec9; }
+        .ind-agro { border-bottom-color: #f39c12; }
+        .ind-agro .icono-industria { background: #fef5e7; color: #f39c12; }
+
+        /* ── CTA FINAL ── */
+        .cta-final {
+            background: linear-gradient(135deg, #6f63d9 0%, #3fb8c4 100%);
+        }
+
+        .cta-final-sub {
+            color: rgba(255, 255, 255, 0.92);
+        }
+    </style>
 
     <link rel="icon" href="../assets/img/iconos/AMINOVITA_A.png" type="image/png">
 </head>
@@ -92,57 +219,138 @@
         <!-- ── CONTENIDO PRINCIPAL ────────────────────────── -->
         <main class="flex-grow-1">
 
-            <div class="container" style="margin-top: 80px;">
-                <div class="mb-4 text-center">
-                    <h1 class="display-4 fw-bold" style="letter-spacing: -1px;">Bienvenido a Aminovita</h1>
-                    <p class="lead text-muted">La quimica a tu alcance</p>
-                </div>
-            </div>
+            <!-- ── HERO ── -->
+            <section class="hero-inicio pt-4 pt-lg-5 pb-3">
+                <div class="hero-blob hero-blob-1"></div>
+                <div class="hero-blob hero-blob-2"></div>
 
-            <!-- Carrusel -->
-            <div class="container mt-4">
-                <div id="carouselExampleIndicators" class="carousel slide shadow-lg rounded-4 overflow-hidden">
-                    <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                    </div>
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="../assets/img/iconos/AQ1.png" class="d-block w-100" alt="Producto 1"
-                                style="object-fit: contain; background-color: #ffffff;">
+                <div class="container position-relative">
+                    <div class="row align-items-center gy-5">
+                        <div class="col-lg-6">
+                            <span class="badge-marca mb-3">Materias Primas Industriales</span>
+                            <h1 class="display-4 fw-bold mt-3 mb-3" style="letter-spacing: -1.5px; color: #0b2639;">
+                                Bienvenido a <span class="texto-degradado">Aminovita</span>
+                            </h1>
+                            <p class="lead text-secondary mb-4">La química a tu alcance.</p>
+                            <div class="d-flex flex-wrap gap-3">
+                                <a href="./productos.html" class="btn btn-degradado btn-lg rounded-pill fw-bold px-4">
+                                    <i class="bi bi-search me-2"></i> Ver Catálogo
+                                </a>
+                                <a href="./contacto.html" class="btn btn-outline-dark btn-lg rounded-pill fw-bold px-4">
+                                    Ponte en Contacto
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="hero-logo-card">
+                                <img src="../assets/img/iconos/AQ1.png" alt="Aminovita" class="img-fluid" style="max-width: 320px;">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div> 
-        
+            </section>
 
-            <!-- Sección Política de Calidad (Ajustada en proximidad y ancho) -->
+            <!-- ── CIFRAS DE CONFIANZA ── -->
+            <section class="container my-4 my-lg-5">
+                <div class="row g-3 justify-content-center text-center">
+                    <div class="col-6 col-md-3">
+                        <div class="cifra-card shadow-sm p-4 h-100">
+                            <span class="display-5 fw-bold d-block texto-degradado">29+</span>
+                            <span class="small text-muted text-uppercase fw-bold" style="letter-spacing: 0.5px;">Años de Experiencia</span>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="cifra-card shadow-sm p-4 h-100">
+                            <span class="display-5 fw-bold d-block texto-degradado">4</span>
+                            <span class="small text-muted text-uppercase fw-bold" style="letter-spacing: 0.5px;">Años como Aminovita</span>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="cifra-card shadow-sm p-4 h-100">
+                            <span class="display-5 fw-bold d-block texto-degradado">5</span>
+                            <span class="small text-muted text-uppercase fw-bold" style="letter-spacing: 0.5px;">Industrias Atendidas</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── INDUSTRIAS QUE ATENDEMOS ── -->
+            <section class="container my-5 py-2">
+                <div class="text-center mb-4">
+                    <span class="text-uppercase fw-bold small texto-degradado" style="letter-spacing: 2px;">Lo que ofrecemos</span>
+                    <h2 class="fw-bold mt-2" style="color: #0b2639; letter-spacing: -1px;">Industrias que Atendemos</h2>
+                </div>
+                <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3">
+                    <div class="col">
+                        <a href="./productos.html" class="industria-card ind-farma text-decoration-none">
+                            <div class="icono-industria"><i class="bi bi-capsule"></i></div>
+                            <span class="fw-bold small d-block" style="color: #0b2639;">Farmacéutica</span>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="./productos.html" class="industria-card ind-alim text-decoration-none">
+                            <div class="icono-industria"><i class="bi bi-egg-fried"></i></div>
+                            <span class="fw-bold small d-block" style="color: #0b2639;">Alimentos</span>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="./productos.html" class="industria-card ind-cosm text-decoration-none">
+                            <div class="icono-industria"><i class="bi bi-stars"></i></div>
+                            <span class="fw-bold small d-block" style="color: #0b2639;">Cosmética</span>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="./productos.html" class="industria-card ind-vet text-decoration-none">
+                            <div class="icono-industria"><i class="bi bi-heart-pulse"></i></div>
+                            <span class="fw-bold small d-block" style="color: #0b2639;">Veterinaria</span>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="./productos.html" class="industria-card ind-agro text-decoration-none">
+                            <div class="icono-industria"><i class="bi bi-tree"></i></div>
+                            <span class="fw-bold small d-block" style="color: #0b2639;">Agroquímico</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección Política de Calidad (mismo texto, con acento de marca) -->
             <div class="container mt-2 mb-5 py-2">
                 <div class="row justify-content-center">
-                    
+
                     <div class="col-12 col-lg-12">
                         <div class="p-4 p-md-5 rounded-4 bg-white shadow-sm border border-light text-center d-flex flex-column align-items-center">
-                            
+
                             <!-- Icono Destacado -->
-                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mb-4 shadow" style="width: 70px; height: 70px;">
+                            <div class="text-white rounded-circle d-flex align-items-center justify-content-center mb-4 shadow" style="width: 70px; height: 70px; background: linear-gradient(135deg, #8A8AF6 0%, #6CDBE3 100%);">
                                 <i class="bi bi-award fs-2"></i>
                             </div>
-                            
+
                             <!-- Título -->
                             <h2 class="fw-bold mb-3 h2" style="letter-spacing: -0.5px;">Política de Calidad</h2>
-                            <hr class="w-25 mx-auto mb-4 border-primary opacity-50" style="height: 3px;">
-                            
+                            <div class="mx-auto mb-4" style="width: 25%; height: 3px; background: linear-gradient(90deg, #8A8AF6 0%, #6CDBE3 100%); border-radius: 3px;"></div>
+
                             <!-- Texto -->
                             <p class="text-secondary fs-5 lh-lg mb-0" style="max-width: 900px;">
                                 En <strong>AMINOVITA Y QUÍMICOS S.A. DE C.V.</strong> nos dedicamos a proporcionar materias primas de calidad para la industria farmacéutica, cosmética, veterinaria y alimenticia. Estamos comprometidos con nuestros clientes a través de un enfoque basado en procesos y la mejora continua. Contamos con el respaldo de fabricantes internacionales mundialmente reconocidos para superar las expectativas de calidad, cantidad y tiempos de entrega.
                             </p>
-                            
+
                         </div>
                     </div>
 
                 </div>
             </div>
+
+            <!-- ── CTA FINAL ── -->
+            <section class="container mb-5">
+                <div class="cta-final rounded-4 p-5 text-center text-white">
+                    <h3 class="fw-bold mb-2">¿Buscas una materia prima en particular?</h3>
+                    <p class="mb-4 cta-final-sub">Cotiza directamente con nuestro equipo, sin compromiso.</p>
+                    <a href="./contacto.html" class="btn btn-light btn-lg rounded-pill fw-bold px-5" style="color: #0b2639;">
+                        <i class="bi bi-envelope-fill me-2"></i> Cotizar Ahora
+                    </a>
+                </div>
+            </section>
 
         </main>
 
@@ -224,6 +432,11 @@
 </div>
 
     </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Scripts propios -->
     <script src="../assets/js/config.js"></script>

@@ -92,17 +92,27 @@ document.getElementById('registroForm').addEventListener('submit', async functio
     e.preventDefault();
     this.classList.add('was-validated');
 
-    const nombre   = document.getElementById('nombre').value;
-    const empresa  = document.getElementById('empresa').value;
-    const email    = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const code     = document.getElementById('codigo').value;
+    const nombre         = document.getElementById('nombre').value;
+    const empresa        = document.getElementById('empresa').value;
+    const email          = document.getElementById('email').value;
+    const password       = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const code           = document.getElementById('codigo').value;
 
     if (!code) {
         return Swal.fire({
             icon: 'warning',
             title: 'Falta el código',
             text: 'Debes enviar y escribir el código de verificación.',
+            confirmButtonColor: '#6CDBE3'
+        });
+    }
+
+    if (password !== confirmPassword) {
+        return Swal.fire({
+            icon: 'error',
+            title: 'Las contraseñas no coinciden',
+            text: 'Verifica que ambas contraseñas sean iguales.',
             confirmButtonColor: '#6CDBE3'
         });
     }
